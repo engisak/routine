@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Daily Routine — Working Muslim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#0F1F3D;
+    --navy-700:#1B2E52;
+    --navy-500:#2E4570;
+    --gold-500:#C9A227;
+    --gold-300:#E7C873;
+    --gold-100:#F6EBC9;
+    --cream:#FBF7EE;
+    --slate-400:#6B7A99;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  @page{
+    size:A4 portrait;
+    margin:0;
+  }
+  @media print{
+    html, body{
+      width:100% !important;
+      height:100% !important;
+      margin:0 !important;
+      padding:0 !important;
+      background:var(--cream) !important;
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+    .poster{
+      width:100% !important;
+      max-width:100% !important;
+      height:100% !important;
+      min-height:100vh !important;
+      margin:0 !important;
+      border:none !important;
+      border-radius:0 !important;
+      box-shadow:none !important;
+      display:flex !important;
+      flex-direction:column !important;
+      justify-content:space-between !important;
+      page-break-inside:avoid !important;
+      break-inside:avoid !important;
+    }
+    .header{
+      padding:24px 32px 18px !important;
+    }
+    .crest{
+      width:32px !important;
+      height:32px !important;
+      margin-bottom:6px !important;
+    }
+    .eyebrow{
+      font-size:11px !important;
+      letter-spacing:0.14em !important;
+    }
+    h1{
+      font-size:26px !important;
+      margin-bottom:6px !important;
+    }
+    .subtitle{
+      font-size:11.5px !important;
+      padding:4px 15px !important;
+      margin-bottom:8px !important;
+    }
+    .quote{
+      font-size:12px !important;
+      max-width:440px !important;
+    }
+    .table-head{
+      font-size:12px !important;
+    }
+    .table-head div{
+      padding:9px 18px !important;
+    }
+    .col-time{
+      width:160px !important;
+    }
+    .col-activity{
+      flex:1 !important;
+    }
+    .col-check{
+      width:70px !important;
+    }
+    .rows{
+      display:flex !important;
+      flex-direction:column !important;
+      flex:1 !important;
+      justify-content:space-between !important;
+    }
+    .row{
+      flex:1 !important;
+      display:flex !important;
+      align-items:center !important;
+    }
+    .cell-time{
+      width:160px !important;
+      padding:0 18px !important;
+    }
+    .time-badge{
+      font-size:13px !important;
+    }
+    .cell-activity{
+      padding:0 18px !important;
+      gap:12px !important;
+    }
+    .icon{
+      width:30px !important;
+      height:30px !important;
+    }
+    .icon svg{
+      width:16px !important;
+      height:16px !important;
+    }
+    .activity-text .title{
+      font-size:14.5px !important;
+    }
+    .activity-text .desc{
+      font-size:11.5px !important;
+    }
+    .cell-check{
+      width:70px !important;
+      padding:0 !important;
+    }
+    .checkmark{
+      width:22px !important;
+      height:22px !important;
+      border:1.8px solid var(--gold-500) !important;
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+    .check-wrap input:checked ~ .checkmark{
+      background:var(--navy-900) !important;
+      border-color:var(--gold-500) !important;
+    }
+    .check-wrap input:checked ~ .checkmark::after{
+      width:5px !important;
+      height:10px !important;
+      border-width:0 2.4px 2.4px 0 !important;
+    }
+    .banner{
+      padding:12px 18px !important;
+      font-size:13.5px !important;
+    }
+    .banner span{
+      font-size:10.5px !important;
+    }
+    .download-bar{
+      display:none !important;
+    }
+  }
+
+  /* DOWNLOAD & RESET BAR */
+  .download-bar{
+    position:fixed;
+    bottom:24px;
+    right:24px;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .reset-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:var(--white);
+    color:var(--navy-900);
+    border:1.5px solid var(--navy-500);
+    padding:11px 18px;
+    font-size:13px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(15,31,61,0.2);
+    transition:all 0.25s ease;
+  }
+  .reset-btn:hover{
+    background:var(--cream);
+    border-color:var(--gold-500);
+    transform:translateY(-2px);
+    box-shadow:0 14px 35px rgba(15,31,61,0.25);
+  }
+  .reset-btn:active{
+    transform:translateY(0);
+  }
+  .reset-btn svg{
+    width:15px;
+    height:15px;
+    stroke:currentColor;
+    stroke-width:2.2;
+  }
+  .download-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    background:var(--navy-900);
+    color:var(--gold-300);
+    border:1.5px solid var(--gold-500);
+    padding:11px 22px;
+    font-size:13.5px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(15,31,61,0.4);
+    transition:all 0.25s ease;
+  }
+  .download-btn:hover{
+    background:var(--gold-500);
+    color:var(--navy-900);
+    border-color:var(--gold-300);
+    transform:translateY(-2px);
+    box-shadow:0 14px 35px rgba(201,162,39,0.35);
+  }
+  .download-btn:active{
+    transform:translateY(0);
+  }
+  .download-btn svg{
+    width:17px;
+    height:17px;
+    stroke:currentColor;
+    stroke-width:2.2;
+  }
+  body{
+    margin:0;
+    padding:16px 12px;
+    background:#e7e2d4;
+    display:flex;
+    justify-content:center;
+    font-family:'Inter',sans-serif;
+  }
+  .poster{
+    width:520px;
+    max-width:100%;
+    background:var(--cream);
+    border:1px solid var(--gold-300);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(15,31,61,0.35);
+  }
+
+  /* HEADER */
+  .header{
+    background:linear-gradient(180deg,var(--navy-900) 0%, var(--navy-700) 100%);
+    padding:16px 20px 12px;
+    text-align:center;
+    position:relative;
+  }
+  .header::after{
+    content:"";
+    position:absolute;
+    left:30px;right:30px;bottom:0;
+    height:3px;
+    background:linear-gradient(90deg,transparent, var(--gold-500), transparent);
+  }
+  .crest{
+    width:28px;height:28px;margin:0 auto 5px;
+  }
+  .eyebrow{
+    color:var(--gold-300);
+    font-size:10px;
+    letter-spacing:0.12em;
+    margin:0 0 3px;
+    font-weight:600;
+  }
+  h1{
+    font-family:'Playfair Display',serif;
+    color:var(--white);
+    font-size:22px;
+    line-height:1.15;
+    margin:0 0 5px;
+    font-weight:700;
+  }
+  .subtitle{
+    display:inline-block;
+    color:var(--navy-900);
+    background:var(--gold-500);
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    padding:3px 12px;
+    border-radius:20px;
+    margin-bottom:7px;
+  }
+  .quote{
+    color:var(--gold-100);
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:11.5px;
+    line-height:1.35;
+    max-width:380px;
+    margin:0 auto;
+    opacity:0.92;
+  }
+  .quote span{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-style:normal;
+    font-size:9.5px;
+    color:var(--slate-400);
+    margin-top:2px;
+    letter-spacing:0.03em;
+  }
+
+  /* TABLE */
+  .table-head{
+    display:flex;
+    background:var(--navy-700);
+    color:var(--gold-300);
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.05em;
+  }
+  .table-head div{padding:7px 14px;}
+  .col-time{width:125px; border-right:1px solid rgba(255,255,255,0.12);}
+  .col-activity{flex:1;}
+  .col-check{width:52px; text-align:center; padding:7px 4px !important; border-left:1px solid rgba(255,255,255,0.12);}
+
+  .rows{padding:0;}
+  .row{
+    display:flex;
+    border-bottom:1px solid #E7DFC6;
+    transition:background-color 0.2s ease;
+  }
+  .row:nth-child(even){background:var(--white);}
+  .row:nth-child(odd){background:#FBF6E8;}
+
+  .cell-time{
+    width:125px;
+    padding:7.5px 12px;
+    border-right:1px dashed var(--gold-300);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .time-badge{
+    font-weight:700;
+    color:var(--navy-900);
+    font-size:12px;
+  }
+  .cell-activity{
+    flex:1;
+    padding:7.5px 12px;
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+  }
+  .icon{
+    width:26px;height:26px;
+    flex:none;
+    border-radius:6px;
+    background:var(--navy-900);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .icon svg{width:14px;height:14px;stroke:var(--gold-300);}
+  .activity-text .title{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    color:var(--navy-900);
+    font-size:13px;
+    margin-bottom:1px;
+    transition:opacity 0.2s ease;
+  }
+  .activity-text .desc{
+    color:var(--slate-400);
+    font-size:10.5px;
+    line-height:1.3;
+    transition:opacity 0.2s ease;
+  }
+  .row.prayer{background:var(--gold-100)!important;}
+  .row.prayer .cell-time{border-right-color:var(--navy-500);}
+  .row.prayer .icon{background:var(--gold-500);}
+  .row.prayer .icon svg{stroke:var(--navy-900);}
+
+  /* CHECK COLUMN & INTERACTIVE CHECKBOXES */
+  .cell-check{
+    width:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-left:1px dashed var(--gold-300);
+    padding:7.5px 4px;
+  }
+  .row.prayer .cell-check{border-left-color:var(--navy-500);}
+  .check-wrap{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    user-select:none;
+  }
+  .check-wrap input{
+    position:absolute;
+    opacity:0;
+    cursor:pointer;
+    height:0;
+    width:0;
+  }
+  .checkmark{
+    width:19px;
+    height:19px;
+    border-radius:4px;
+    background:var(--white);
+    border:1.8px solid var(--navy-500);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.2s ease;
+  }
+  .row.prayer .checkmark{
+    background:#FFFDF5;
+    border-color:var(--gold-500);
+  }
+  .check-wrap:hover .checkmark{
+    border-color:var(--gold-500);
+    transform:scale(1.08);
+  }
+  .check-wrap input:checked ~ .checkmark{
+    background:var(--navy-900);
+    border-color:var(--gold-500);
+  }
+  .check-wrap input:checked ~ .checkmark::after{
+    content:"";
+    width:4.5px;
+    height:9px;
+    border:solid var(--gold-300);
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg) translate(-0.5px, -1px);
+    display:block;
+  }
+  .row.completed .activity-text .title{
+    opacity:0.55;
+  }
+  .row.completed .activity-text .desc{
+    opacity:0.5;
+  }
+
+  /* FOOTER BANNER */
+  .banner{
+    background:var(--gold-500);
+    color:var(--navy-900);
+    text-align:center;
+    padding:8px 14px;
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:0.01em;
+  }
+  .banner span{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:9.5px;
+    margin-top:2px;
+    letter-spacing:0.04em;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <div class="header">
+    <svg class="crest" viewBox="0 0 48 48" fill="none">
+      <path d="M24 4c-6 5-9 10-9 16 0 7 4 12 9 14 5-2 9-7 9-14 0-6-3-11-9-16Z" stroke="#E7C873" stroke-width="1.6"/>
+      <path d="M24 30c8 2 16 8 18 14H6c2-6 10-12 18-14Z" stroke="#E7C873" stroke-width="1.6"/>
+      <circle cx="24" cy="10" r="2" fill="#E7C873"/>
+    </svg>
+    <p class="eyebrow">DAILY STRUCTURE</p>
+    <h1>My Daily Routine</h1>
+    <div class="subtitle">Working Muslim | Balanced Day</div>
+    <p class="quote">"Indeed, with hardship comes ease."<span>— Qur'an 94:6</span></p>
+  </div>
+
+  <div class="table-head">
+    <div class="col-time">TIME</div>
+    <div class="col-activity">ACTIVITY</div>
+    <div class="col-check">CHECK</div>
+  </div>
+
+  <div class="rows">
+
+    <div class="row prayer">
+      <div class="cell-time"><span class="time-badge">4:00 AM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Tahajjud Prayer</div>
+          <div class="desc">Qiyam al-layl — quiet time before dawn</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="1">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row prayer">
+      <div class="cell-time"><span class="time-badge">5:00 AM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Fajr Prayer &amp; Wake Up</div>
+          <div class="desc">Morning adhkar and a short Qur'an reading</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="2">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">6:00 – 8:00 AM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6.5 6.5l11 11M4 9l4-4M20 15l-4 4M2 11l2-2M22 13l-2 2M7 20l-3-3M17 4l3 3"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Gym / Exercise &amp; Get Ready</div>
+          <div class="desc">Train, shower, and prepare for the office</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="3">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">8:00 – 8:30 AM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 13l2-6h14l2 6M5 13h14v4H5zM7 17v2M17 17v2"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Commute to Office</div>
+          <div class="desc">Travel time — plan the day ahead</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="4">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">8:30 AM – 12:00 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Office Work — Shift One</div>
+          <div class="desc">Deep focus on priority tasks</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="5">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row prayer">
+      <div class="cell-time"><span class="time-badge">12:00 – 1:00 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2v6a6 6 0 0012 0V2M12 14v8M8 22h8"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Dhuhr Prayer, Lunch &amp; Break</div>
+          <div class="desc">Reset — connect with Allah and recharge</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="6">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">1:00 – 5:00 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Office Work — Shift Two</div>
+          <div class="desc">Includes Asr Prayer — finish key tasks</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="7">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row prayer">
+      <div class="cell-time"><span class="time-badge">5:00 – 6:30 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Head Home &amp; Rest</div>
+          <div class="desc">Short rest, then Maghrib Prayer</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="8">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row prayer">
+      <div class="cell-time"><span class="time-badge">6:30 – 7:00 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.5 14.5A8.5 8.5 0 119.5 3.5a7 7 0 0011 11z"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Isha Prayer</div>
+          <div class="desc">Close the day's prayers before winding down</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="9">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">7:00 – 7:30 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 9h13v5a5 5 0 01-5 5H9a5 5 0 01-5-5V9zM17 10h1.5a2 2 0 010 4H17M7 3v2M11 3v2"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Coffee &amp; Social Time</div>
+          <div class="desc">Catch up with friends and team — 30 min max</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="10">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">7:30 – 8:30 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Free Time / Buffer</div>
+          <div class="desc">Flexible hour — handle pop-ups, calls &amp; personal tasks</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="11">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">8:30 – 10:00 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-4 3-7 7-7s7 3 7 7M15 20c0-2.5-1-4.5-2.5-6 1-1 2.3-1.5 3.5-1.5 3 0 6 2.5 6 7.5"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Family Time</div>
+          <div class="desc">Quality time with the people who matter most</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="12">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">10:00 – 11:00 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Reading &amp; Learning</div>
+          <div class="desc">Read books, reflect, and wind down before sleep</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="13">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-time"><span class="time-badge">11:00 PM</span></div>
+      <div class="cell-activity">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 18v-6a2 2 0 012-2h14a2 2 0 012 2v6M3 18v2M21 18v2M3 12V9a2 2 0 012-2h4a2 2 0 012 2v3"/></svg></div>
+        <div class="activity-text">
+          <div class="title">Sleep</div>
+          <div class="desc">Early rest for a productive tomorrow</div>
+        </div>
+      </div>
+      <div class="cell-check">
+        <label class="check-wrap" title="Mark as done">
+          <input type="checkbox" class="task-check" data-id="14">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="banner">
+    Discipline Today, Success Tomorrow
+    <span>Remember: consistency in small things builds a strong life</span>
+  </div>
+
+</div>
+
+<div class="download-bar">
+  <button class="reset-btn" onclick="resetChecks()" title="Reset all checkboxes">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+      <path d="M3 3v5h5"/>
+    </svg>
+    <span>Reset</span>
+  </button>
+  <button class="download-btn" onclick="window.print()" title="Download PDF or Print">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    <span>Download PDF</span>
+  </button>
+</div>
+
+<script>
+  const checkboxes = document.querySelectorAll('.task-check');
+  checkboxes.forEach((cb) => {
+    const id = cb.getAttribute('data-id');
+    const saved = localStorage.getItem('routine_check_' + id);
+    if (saved === 'true') {
+      cb.checked = true;
+      cb.closest('.row').classList.add('completed');
+    }
+    cb.addEventListener('change', () => {
+      localStorage.setItem('routine_check_' + id, cb.checked);
+      if (cb.checked) {
+        cb.closest('.row').classList.add('completed');
+      } else {
+        cb.closest('.row').classList.remove('completed');
+      }
+    });
+  });
+
+  function resetChecks() {
+    checkboxes.forEach((cb) => {
+      const id = cb.getAttribute('data-id');
+      cb.checked = false;
+      localStorage.removeItem('routine_check_' + id);
+      cb.closest('.row').classList.remove('completed');
+    });
+  }
+</script>
+
+</body>
+</html>
