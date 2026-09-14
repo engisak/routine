@@ -6,6 +6,8 @@
 <title>My Daily Routine — Working Muslim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
     --navy-900:#0F1F3D;
@@ -228,6 +230,13 @@
     height:17px;
     stroke:currentColor;
     stroke-width:2.2;
+  }
+  @keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+  }
+  .spin{
+    animation:spin 0.8s linear infinite;
   }
   body{
     margin:0;
@@ -742,7 +751,7 @@
     </svg>
     <span>Reset</span>
   </button>
-  <button class="download-btn" onclick="window.print()" title="Download PDF or Print">
+  <button class="download-btn" id="downloadBtn" onclick="downloadDirectPDF()" title="Download PDF directly">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
       <polyline points="7 10 12 15 17 10"/>
@@ -782,6 +791,139 @@
       localStorage.removeItem('routine_check_' + id);
       cb.closest('.row').classList.remove('completed');
     });
+  }
+
+  async function downloadDirectPDF() {
+    const btn = document.getElementById('downloadBtn');
+    const originalContent = btn.innerHTML;
+    
+    btn.innerHTML = `
+      <svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+      </svg>
+      <span>Downloading...</span>
+    `;
+    btn.style.pointerEvents = 'none';
+
+    try {
+      if (!window.jspdf || !window.html2canvas) {
+        window.print();
+        return;
+      }
+
+      const originalPoster = document.querySelector('.poster');
+
+      // Create an off-screen clone with exact A4 proportions (ratio 1 : 1.414)
+      // 794px x 1123px (Standard A4 @ 96 DPI)
+      const clone = originalPoster.cloneNode(true);
+      
+      // Copy checked states to clone
+      const origChecks = originalPoster.querySelectorAll('.task-check');
+      const cloneChecks = clone.querySelectorAll('.task-check');
+      origChecks.forEach((orig, i) => {
+        if (orig.checked) {
+          cloneChecks[i].checked = true;
+          cloneChecks[i].setAttribute('checked', 'checked');
+        } else {
+          cloneChecks[i].checked = false;
+          cloneChecks[i].removeAttribute('checked');
+        }
+      });
+
+      // Wrapper placed offscreen
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'fixed';
+      wrapper.style.left = '-9999px';
+      wrapper.style.top = '0';
+      wrapper.style.width = '794px';
+      wrapper.style.height = '1123px';
+      wrapper.style.zIndex = '-9999';
+      wrapper.style.overflow = 'hidden';
+      wrapper.style.background = '#FBF7EE';
+      wrapper.style.fontFamily = "'Inter', sans-serif";
+
+      // Style clone to fill 794px x 1123px perfectly
+      clone.style.width = '794px';
+      clone.style.maxWidth = '794px';
+      clone.style.height = '1123px';
+      clone.style.margin = '0';
+      clone.style.borderRadius = '0';
+      clone.style.border = 'none';
+      clone.style.boxShadow = 'none';
+      clone.style.display = 'flex';
+      clone.style.flexDirection = 'column';
+      clone.style.justifyContent = 'space-between';
+
+      // Header spacing in clone
+      const cloneHeader = clone.querySelector('.header');
+      if (cloneHeader) {
+        cloneHeader.style.padding = '22px 28px 18px';
+      }
+
+      // Columns width in clone
+      clone.querySelectorAll('.col-time, .cell-time').forEach(el => {
+        el.style.width = '160px';
+      });
+      clone.querySelectorAll('.col-check, .cell-check').forEach(el => {
+        el.style.width = '65px';
+      });
+
+      // Stretch rows evenly to fill height
+      const cloneRows = clone.querySelector('.rows');
+      if (cloneRows) {
+        cloneRows.style.display = 'flex';
+        cloneRows.style.flexDirection = 'column';
+        cloneRows.style.flex = '1';
+        cloneRows.style.justifyContent = 'space-between';
+      }
+      clone.querySelectorAll('.row').forEach(r => {
+        r.style.flex = '1';
+        r.style.display = 'flex';
+        r.style.alignItems = 'center';
+      });
+
+      // Footer banner spacing in clone
+      const cloneBanner = clone.querySelector('.banner');
+      if (cloneBanner) {
+        cloneBanner.style.padding = '12px 18px';
+      }
+
+      wrapper.appendChild(clone);
+      document.body.appendChild(wrapper);
+
+      // Render with html2canvas
+      const canvas = await html2canvas(clone, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#FBF7EE',
+        width: 794,
+        height: 1123,
+        windowWidth: 794,
+        windowHeight: 1123,
+        logging: false
+      });
+
+      document.body.removeChild(wrapper);
+
+      // Generate A4 PDF using jsPDF
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.96);
+      pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+      pdf.save('My_Daily_Routine.pdf');
+
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      window.print();
+    } finally {
+      btn.innerHTML = originalContent;
+      btn.style.pointerEvents = 'auto';
+    }
   }
 </script>
 
